@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -17,16 +17,22 @@ namespace Cw2
             {
                 var lines = File.ReadLines(path);
 
-
-
-
-
-
+                
                 foreach( var line in lines)
                 {
                     line.Split(",");
-                   var Student = new Student();
-                    Console.WriteLine(line);
+                  
+                  string imie = line.Split(",").GetValue(0).ToString();
+                  string nazwisko = line.Split(",").GetValue(1).ToString();
+                  string kier = line.Split(",").GetValue(2).ToString();
+                  string tryb = line.Split(",").GetValue(3).ToString();
+                  string index = line.Split(",").GetValue(4).ToString();
+                  string data = line.Split(",").GetValue(5).ToString();
+                  string mail = line.Split(",").GetValue(6).ToString();
+                  string imiem = line.Split(",").GetValue(7).ToString();
+                  string imieo = line.Split(",").GetValue(8).ToString();
+
+                  Console.WriteLine(line);
                 }
 
 
@@ -39,7 +45,7 @@ namespace Cw2
                 }
                 if (e is ArgumentException)
                 {
-                    File.WriteAllTextAsync(@"C:\Users\playe\OneDrive\Pulpit\log.txt","Podana ścieżka jest niepoprawna");
+                    File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\log.txt","Podana ścieżka jest niepoprawna");
                     Console.Error.WriteLine("Podana ścieżka jest niepoprawna");
                 }
             }
