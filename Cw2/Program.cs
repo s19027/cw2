@@ -1,4 +1,6 @@
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -9,8 +11,12 @@ namespace Cw2
     {
         static void Main(string[] args)
         {
-            //git status -> git add .->git status -> git commit -m <nazwa> ->git push
 
+            //git status -> git add .->git status -> git commit -m <nazwa> ->git push
+            ArrayList stdf = new ArrayList();
+            string filedata = "";
+            string logdata="";
+            string check = "";
             //var path = @"C:\Users\s19027\Desktop\dane.csv";
             var path = @"C:\Users\playe\OneDrive\Pulpit\dane.csv";
             try
@@ -31,11 +37,29 @@ namespace Cw2
                   string mail = line.Split(",").GetValue(6).ToString();
                   string imiem = line.Split(",").GetValue(7).ToString();
                   string imieo = line.Split(",").GetValue(8).ToString();
-
+                  
+                  Student std = new Student(imie, nazwisko, kier, tryb, index, data, mail, imiem, imieo);
+                  check = imie + nazwisko + index;
+                  if (std.validtofile())
+                  {
+                      if (!stdf.Contains(check))
+                      {
+                          filedata += line + "\n";
+                          stdf.Add(check);
+                      }
+                      else
+                      {
+                          logdata += line + "\n";
+                      }
+                  }
+                  else
+                  {
+                      logdata += line + "\n";
+                  }
                   Console.WriteLine(line);
                 }
-
-
+                File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\result.xml",filedata);
+                File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\log.txt",logdata);
             }catch(Exception e)
             {
                 if(e is FileNotFoundException)

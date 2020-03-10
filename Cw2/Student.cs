@@ -25,10 +25,11 @@
             imie_ojca = imo.Replace(" ", "");;
         }
 
-        public bool valid()
+        public bool validtofile()
         {
             if (imie == null || nazwisko == null || kierunek == null || tryb == null || index == null || data == null ||
-                email == null || imie_matki == null || imie_ojca == null)
+                email == null || imie_matki == null || imie_ojca == null||imie == ""|| nazwisko == "" || kierunek == "" || tryb == "" || index == "" || data == "" ||
+                email =="" || imie_matki == "" || imie_ojca == "")
             {
                 return false;
             }
