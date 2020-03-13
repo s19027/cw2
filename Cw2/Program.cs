@@ -95,7 +95,6 @@ namespace Cw2
                 Console.WriteLine(infcount);
                 Console.WriteLine("=========");
                 Console.WriteLine(artcount);
-                File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\result.xml",filedata);
                 File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\log.txt",logdata);
             }catch(Exception e)
             {
@@ -111,7 +110,11 @@ namespace Cw2
                 }
             }
 
-            
+            FileStream writer = new FileStream(@"C:\Users\playe\OneDrive\Pulpit\result.xml", FileMode.Create); 
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Student>),
+                new XmlRootAttribute("uczelnia"));
+            serializer.Serialize(writer, list);
+
 
             var parsedDate = DateTime.Parse("2020-03-09");
             
