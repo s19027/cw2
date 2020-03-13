@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 
 namespace Cw2
 {
@@ -17,6 +19,9 @@ namespace Cw2
             string filedata = "";
             string logdata="";
             string check = "";
+            int infcount =0;
+            int artcount = 0;
+            var list = new List<Student>();
             //var path = @"C:\Users\s19027\Desktop\dane.csv";
             var path = @"C:\Users\playe\OneDrive\Pulpit\dane.csv";
             try
@@ -28,24 +33,53 @@ namespace Cw2
                 {
                     line.Split(",");
                   
-                  string imie = line.Split(",").GetValue(0).ToString();
-                  string nazwisko = line.Split(",").GetValue(1).ToString();
+                  string im = line.Split(",").GetValue(0).ToString();
+                  string naz = line.Split(",").GetValue(1).ToString();
                   string kier = line.Split(",").GetValue(2).ToString();
-                  string tryb = line.Split(",").GetValue(3).ToString();
-                  string index = line.Split(",").GetValue(4).ToString();
-                  string data = line.Split(",").GetValue(5).ToString();
+                  string tr = line.Split(",").GetValue(3).ToString();
+                  string ind = line.Split(",").GetValue(4).ToString();
+                  string dat = line.Split(",").GetValue(5).ToString();
                   string mail = line.Split(",").GetValue(6).ToString();
                   string imiem = line.Split(",").GetValue(7).ToString();
                   string imieo = line.Split(",").GetValue(8).ToString();
                   
-                  Student std = new Student(imie, nazwisko, kier, tryb, index, data, mail, imiem, imieo);
-                  check = imie + nazwisko + index;
-                  if (std.validtofile())
+                  check = im + naz + ind;
+                  
+                  if (new Student()
+                  {
+                      imie = im.Replace(" ", ""),
+                      nazwisko = naz.Replace(" ", ""),
+                      kierunek = kier.Replace(" ", ""),
+                      tryb = tr.Replace(" ", ""),
+                      index = ind.Replace(" ", ""),
+                      data = dat.Replace(" ", ""),
+                      email = mail.Replace(" ", ""),
+                      imie_matki = imiem.Replace(" ", ""),
+                      imie_ojca = imieo.Replace(" ", ""),
+                  }.validtofile())
                   {
                       if (!stdf.Contains(check))
                       {
+                          list.Add(new Student(){imie = im.Replace(" ", ""),
+                              nazwisko = naz.Replace(" ", ""),
+                              kierunek = kier.Replace(" ", ""),
+                              tryb = tr.Replace(" ", ""),
+                              index = ind.Replace(" ", ""),
+                              data = dat.Replace(" ", ""),
+                              email = mail.Replace(" ", ""),
+                              imie_matki = imiem.Replace(" ", ""),
+                              imie_ojca = imieo.Replace(" ", ""),});
                           filedata += line + "\n";
                           stdf.Add(check);
+                          
+                          if (line.Split((",")).GetValue(2).ToString().Split(" ").GetValue(0).Equals("Informatyka"))
+                          {
+                              infcount++; 
+                          }
+                          if (line.Split((",")).GetValue(2).ToString().Split(" ").GetValue(0).Equals("Sztuka"))
+                          {
+                              artcount++;
+                          }
                       }
                       else
                       {
@@ -56,8 +90,11 @@ namespace Cw2
                   {
                       logdata += line + "\n";
                   }
-                  Console.WriteLine(line);
+                  
                 }
+                Console.WriteLine(infcount);
+                Console.WriteLine("=========");
+                Console.WriteLine(artcount);
                 File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\result.xml",filedata);
                 File.WriteAllText(@"C:\Users\playe\OneDrive\Pulpit\log.txt",logdata);
             }catch(Exception e)
@@ -74,10 +111,12 @@ namespace Cw2
                 }
             }
 
-             
-            var parsedDate = DateTime.Parse("2020-03-09");
+            
 
+            var parsedDate = DateTime.Parse("2020-03-09");
+            
             var today = DateTime.Now;
+          //  JsonConvert.SerializeObject();
             //Console.WriteLine(ParsedDate);
             //Console.WriteLine(today);
             //Console.WriteLine(today.ToShortDateString());
